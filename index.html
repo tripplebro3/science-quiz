@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 11 Science Quiz</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #eef2f7;
+        color: #172033;
+    }
+
+    header {
+        background: #172033;
+        color: white;
+        padding: 28px 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0 0 8px;
+        font-size: 2rem;
+    }
+
+    header p {
+        margin: 0;
+        color: #cbd5e1;
+    }
+
+    main {
+        width: min(1100px, 94%);
+        margin: 28px auto;
+    }
+
+    .card {
+        background: white;
+        border-radius: 14px;
+        padding: 24px;
+        margin-bottom: 22px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    button,
+    select,
+    textarea {
+        font: inherit;
+    }
+
+    button {
+        border: none;
+        border-radius: 8px;
+        padding: 12px 18px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    .primary {
+        background: #2563eb;
+        color: white;
+    }
+
+    .secondary {
+        background: #64748b;
+        color: white;
+    }
+
+    .danger {
+        background: #dc2626;
+        color: white;
+    }
+
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        margin: 8px 0 18px;
+        background: white;
+    }
+
+    .instructions {
+        line-height: 1.6;
+    }
+
+    .progress-container {
+        height: 12px;
+        background: #dbe3ef;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 15px 0;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #2563eb;
+        transition: width 0.3s;
+    }
+
+    .question-card {
+        border: 1px solid #dbe3ef;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        background: #fbfdff;
+    }
+
+    .question-number {
+        color: #2563eb;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .question-text {
+        font-size: 1.08rem;
+        line-height: 1.6;
+        white-space: pre-line;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        resize: vertical;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        margin-top: 14px;
+        line-height: 1.5;
+    }
+
+    textarea:focus,
+    select:focus {
+        outline: 3px solid #bfdbfe;
+        border-color: #2563eb;
+    }
+
+    .quiz-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .result-summary {
+        border-radius: 12px;
+        padding: 20px;
+        background: #eff6ff;
+        border: 2px solid #93c5fd;
+        margin-bottom: 24px;
+    }
+
+    .grade {
+        font-size: 2.4rem;
+        font-weight: bold;
+        color: #1d4ed8;
+        margin: 8px 0;
+    }
+
+    .score-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    .score-box {
+        background: white;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .score-box strong {
+        display: block;
+        font-size: 1.5rem;
+        margin-top: 5px;
+    }
+
+    .review-card {
+        border-left: 6px solid #64748b;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 18px 0;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .review-card.correct {
+        border-left-color: #16a34a;
+    }
+
+    .review-card.partial {
+        border-left-color: #f59e0b;
+    }
+
+    .review-card.incorrect {
+        border-left-color: #dc2626;
+    }
+
+    .review-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .badge-achieved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-merit {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-excellence {
+        background: #ede9fe;
+        color: #5b21b6;
+    }
+
+    .badge-none {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .review-section {
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #f8fafc;
+        line-height: 1.6;
+    }
+
+    .review-section h4 {
+        margin: 0 0 6px;
+    }
+
+    .review-section ul {
+        margin: 8px 0 0;
+        padding-left: 22px;
+    }
+
+    .marking-note {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-top: 8px;
+    }
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .small {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 650px) {
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        .card {
+            padding: 17px;
+        }
+
+        .question-text {
+            font-size: 1rem;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Year 11 Science Quiz</h1>
+    <p>Acids and Bases • Mechanics • Genetics</p>
+</header>
+
+<main>
+
+    <section id="homeScreen" class="card">
+        <h2>Start a Quiz</h2>
+
+        <div class="instructions">
+            <p>
+                Choose a subject. The quiz will randomly select:
+            </p>
+
+            <ul>
+                <li>4 Achieved questions</li>
+                <li>3 Merit questions</li>
+                <li>2 Excellence questions</li>
+            </ul>
+
+            <p>
+                Excellence and Merit questions can receive partial credit.
+                The difficulty labels will remain hidden until you finish.
+            </p>
+
+            <p>
+                This is an automatic practice marker. It is not a replacement
+                for official teacher or NCEA marking.
+            </p>
+        </div>
+
+        <label for="subjectSelect"><strong>Choose a subject:</strong></label>
+        <select id="subjectSelect">
+            <option value="acids">Acids and Bases</option>
+            <option value="mechanics">Mechanics</option>
+            <option value="genetics">Genetics</option>
+        </select>
+
+        <button class="primary" id="startButton">Start Quiz</button>
+    </section>
+
+    <section id="quizScreen" class="hidden">
+        <div class="card">
+            <div class="top-row">
+                <h2 id="quizTitle"></h2>
+                <span id="questionCounter" class="small"></span>
+            </div>
+
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <p class="small">
+                Answer every question. Write explanations for Merit and Excellence questions.
+            </p>
+        </div>
+
+        <form id="quizForm"></form>
+
+        <div class="card quiz-actions">
+            <button type="button" class="primary" id="submitButton">
+                Submit and Grade
+            </button>
+
+            <button type="button" class="secondary" id="cancelButton">
+                Cancel Quiz
+            </button>
+        </div>
+    </section>
+
+    <section id="resultsScreen" class="hidden">
+        <div class="card">
+            <h2>Quiz Results</h2>
+
+            <div id="resultSummary" class="result-summary"></div>
+
+            <div id="reviewContainer"></div>
+
+            <div class="quiz-actions">
+                <button class="primary" id="newQuizButton">
+                    Start Another Quiz
+                </button>
+
+                <button class="secondary" id="homeButton">
+                    Return Home
+                </button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+"use strict";
+
+/*
+    Each question has:
+
+    d:
+        A = Achieved
+        M = Merit
+        E = Excellence
+
+    a:
+        Concepts required for Achieved
+
+    m:
+        Concepts required for Merit
+
+    e:
+        Concepts required for Excellence
+
+    The automatic marker checks whether the student's answer contains
+    the required concepts. Each question receives only ONE result:
+        Excellence OR Merit OR Achieved OR Not Achieved.
+*/
+
+const banks = {
+    acids: [
+        {
+            d: "A",
+            q: "Define an acid according to the Brønsted–Lowry model.",
+            a: ["proton donor", "donates a proton"]
+        },
+        {
+            d: "A",
+            q: "Define a base according to the Brønsted–Lowry model.",
+            a: ["proton acceptor", "accepts a proton"]
+        },
+        {
+            d: "A",
+            q: "What ion is responsible for acidic properties in aqueous solutions?",
+            a: ["hydrogen ion", "H+", "hydronium"]
+        },
+        {
+            d: "A",
+            q: "What ion is responsible for alkaline properties in aqueous solutions?",
+            a: ["hydroxide ion", "OH-"]
+        },
+        {
+            d: "A",
+            q: "What is the pH of a neutral solution at 25°C?",
+            a: ["7", "seven"]
+        },
+        {
+            d: "A",
+            q: "What is the pH range of an acidic solution?",
+            a: ["less than 7", "below 7"]
+        },
+        {
+            d: "A",
+            q: "What is the pH range of an alkaline solution?",
+            a: ["greater than 7", "above 7"]
+        },
+        {
+            d: "A",
+            q: "Name the acid found in vinegar.",
+            a: ["ethanoic acid", "acetic acid"]
+        },
+        {
+            d: "A",
+            q: "Name the acid found in the stomach.",
+            a: ["hydrochloric acid", "HCl"]
+        },
+        {
+            d: "A",
+            q: "Name the acid found in citrus fruits such as lemons.",
+            a: ["citric acid"]
+        },
+        {
+            d: "A",
+            q: "What colour does blue litmus turn in an acid?",
+            a: ["red"]
+        },
+        {
+            d: "A",
+            q: "What colour does red litmus turn in a base?",
+            a: ["blue"]
+        },
+        {
+            d: "A",
+            q: "What is an indicator?",
+            a: ["substance", "changes colour", "pH"]
+        },
+        {
+            d: "A",
+            q: "What is neutralisation?",
+            a: ["acid", "base", "salt", "water"]
+        },
+        {
+            d: "A",
+            q: "What is the general word equation for an acid reacting with a metal?",
+            a: ["acid", "metal", "salt", "hydrogen"]
+        },
+        {
+            d: "A",
+            q: "What gas is produced when an acid reacts with a carbonate?",
+            a: ["carbon dioxide", "CO2"]
+        },
+        {
+            d: "A",
+            q: "What gas is produced when an acid reacts with a reactive metal?",
+            a: ["hydrogen", "H2"]
+        },
+        {
+            d: "A",
+            q: "What are the products of an acid reacting with a carbonate?",
+            a: ["salt", "water", "carbon dioxide"]
+        },
+        {
+            d: "A",
+            q: "What are the products of an acid reacting with a metal oxide?",
+            a: ["salt", "water"]
+        },
+        {
+            d: "A",
+            q: "What is a strong acid?",
+            a: ["completely ionised", "fully ionised"]
+        },
+        {
+            d: "A",
+            q: "What is a weak acid?",
+            a: ["partially ionised", "partially dissociated"]
+        },
+        {
+            d: "A",
+            q: "Give one example of a strong acid.",
+            a: ["hydrochloric acid", "nitric acid", "sulfuric acid"]
+        },
+        {
+            d: "A",
+            q: "Give one example of a weak acid.",
+            a: ["ethanoic acid", "acetic acid", "carbonic acid", "citric acid"]
+        },
+        {
+            d: "A",
+            q: "What does concentration describe?",
+            a: ["amount of solute", "volume of solution"]
+        },
+        {
+            d: "A",
+            q: "What is the unit commonly used for concentration in school chemistry?",
+            a: ["mol/L", "mol l", "mol dm"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for concentration?",
+            a: ["c = n/v", "concentration equals moles divided by volume"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for number of moles?",
+            a: ["n = c v", "moles equals concentration times volume"]
+        },
+        {
+            d: "A",
+            q: "Why must volume be converted into litres when using mol/L?",
+            a: ["units", "litres", "mol/L"]
+        },
+        {
+            d: "A",
+            q: "What is a salt?",
+            a: ["ionic compound", "positive ion", "negative ion"]
+        },
+        {
+            d: "A",
+            q: "What is the name of the salt produced when hydrochloric acid reacts with sodium hydroxide?",
+            a: ["sodium chloride"]
+        },
+        {
+            d: "A",
+            q: "What is the name of the salt produced when nitric acid reacts with potassium hydroxide?",
+            a: ["potassium nitrate"]
+        },
+        {
+            d: "A",
+            q: "What is the name of the salt produced when sulfuric acid reacts with sodium hydroxide?",
+            a: ["sodium sulfate"]
+        },
+        {
+            d: "A",
+            q: "What is a titration used to determine?",
+            a: ["unknown concentration", "concentration"]
+        },
+        {
+            d: "A",
+            q: "What is the endpoint of a titration?",
+            a: ["indicator changes colour", "colour change"]
+        },
+        {
+            d: "A",
+            q: "Why is a white tile used during a titration?",
+            a: ["see colour change", "observe colour change"]
+        },
+        {
+            d: "A",
+            q: "Why is a burette rinsed with the solution it will contain?",
+            a: ["avoid dilution", "prevent dilution", "contamination"]
+        },
+        {
+            d: "M",
+            q: "Explain why a strong acid has a lower pH than a weak acid of the same concentration.",
+            a: ["acid produces hydrogen ions", "hydrogen ions"],
+            m: ["strong acid completely ionises", "weak acid partially ionises", "more hydrogen ions"]
+        },
+        {
+            d: "M",
+            q: "Explain why increasing the concentration of an acid usually decreases its pH.",
+            a: ["more acid particles", "more hydrogen ions"],
+            m: ["greater concentration", "higher hydrogen ion concentration", "lower pH"]
+        },
+        {
+            d: "M",
+            q: "Explain why powdered calcium carbonate reacts faster with hydrochloric acid than large pieces of calcium carbonate.",
+            a: ["surface area", "more collisions"],
+            m: ["powder has greater surface area", "more frequent successful collisions"]
+        },
+        {
+            d: "M",
+            q: "Explain why increasing temperature usually increases the rate of an acid–metal reaction.",
+            a: ["particles move faster", "more collisions"],
+            m: ["more particles have activation energy", "more successful collisions"]
+        },
+        {
+            d: "M",
+            q: "Explain why an indicator changes colour during neutralisation.",
+            a: ["pH changes", "indicator responds to pH"],
+            m: ["indicator has different colours at different pH values", "pH passes through transition range"]
+        },
+        {
+            d: "M",
+            q: "Calculate the concentration of a solution containing 0.20 mol of solute in 0.50 L of solution.",
+            a: ["0.4", "0.40", "mol/L", "mol l"],
+            m: ["c = n/v", "0.20 divided by 0.50"]
+        },
+        {
+            d: "M",
+            q: "Calculate the number of moles in 250 mL of a 0.80 mol/L solution.",
+            a: ["0.20", "0.2", "mol"],
+            m: ["250 mL is 0.250 L", "n = c v", "0.80 times 0.250"]
+        },
+        {
+            d: "M",
+            q: "Explain why antacid tablets relieve indigestion.",
+            a: ["neutralise stomach acid", "reduce acidity"],
+            m: ["antacid is a base", "reacts with hydrochloric acid", "forms salt and water"]
+        },
+        {
+            d: "M",
+            q: "Explain why adding water to an acid changes its pH.",
+            a: ["dilution", "lower concentration"],
+            m: ["hydrogen ions become less concentrated", "pH moves toward 7"]
+        },
+        {
+            d: "M",
+            q: "Explain why a titration should be repeated until concordant results are obtained.",
+            a: ["improves reliability", "similar results"],
+            m: ["reduces random error", "results agree closely"]
+        },
+        {
+            d: "E",
+            q: "A student reacts magnesium ribbon with hydrochloric acid. They repeat the experiment using powdered magnesium, keeping the mass of magnesium, concentration of acid, and temperature constant. Explain in detail why the powdered magnesium reacts faster and how this would affect the shape of a graph showing volume of hydrogen gas against time.",
+            a: ["greater surface area", "more collisions", "hydrogen gas"],
+            m: ["more frequent successful collisions", "steeper graph", "same final volume"],
+            e: ["rate increases initially", "graph has a greater gradient", "same amount of magnesium produces the same total hydrogen", "both reactions eventually level off"]
+        },
+        {
+            d: "E",
+            q: "A student compares a strong acid and a weak acid at the same concentration. Explain, using particle-level ideas, why the strong acid has a lower pH and why the weak acid may react more slowly with a metal.",
+            a: ["strong acid produces more hydrogen ions", "weak acid produces fewer hydrogen ions"],
+            m: ["strong acid completely ionises", "weak acid partially ionises", "collision frequency"],
+            e: ["equilibrium between weak acid molecules and ions", "lower hydrogen ion concentration", "fewer successful collisions per second", "strong acid and weak acid may eventually produce similar total gas if equal moles react"]
+        },
+        {
+            d: "E",
+            q: "A student performs a titration to find the concentration of an unknown hydrochloric acid solution using sodium hydroxide. Describe the method, explain why the endpoint must be approached carefully, and explain how the titre can be used to calculate the unknown concentration.",
+            a: ["burette", "pipette", "indicator", "endpoint"],
+            m: ["record initial and final burette readings", "repeat for concordant titres", "moles of sodium hydroxide"],
+            e: ["balanced equation gives mole ratio", "calculate moles using n = c v", "use mole ratio to find acid moles", "divide moles by acid volume", "overshooting endpoint changes calculated concentration"]
+        },
+        {
+            d: "E",
+            q: "A farmer adds lime to acidic soil. Explain how lime changes the soil chemistry, why the amount added must be controlled, and how excessive lime could affect plant growth.",
+            a: ["lime is a base", "neutralises acid", "pH increases"],
+            m: ["hydrogen ions are removed or neutralised", "soil pH moves toward neutral", "plants require a suitable pH"],
+            e: ["excessive lime makes soil alkaline", "nutrient ions become less available", "different plants have different optimum pH ranges", "controlled addition prevents over-correction"]
+        }
+    ],
+
+    mechanics: [
+        {
+            d: "A",
+            q: "What is the SI unit of force?",
+            a: ["newton", "N"]
+        },
+        {
+            d: "A",
+            q: "What is the SI unit of energy?",
+            a: ["joule", "J"]
+        },
+        {
+            d: "A",
+            q: "What is the SI unit of power?",
+            a: ["watt", "W"]
+        },
+        {
+            d: "A",
+            q: "What is the SI unit of acceleration?",
+            a: ["metres per second squared", "m/s2", "m s"]
+        },
+        {
+            d: "A",
+            q: "Define speed.",
+            a: ["distance", "time"]
+        },
+        {
+            d: "A",
+            q: "Define velocity.",
+            a: ["speed", "direction"]
+        },
+        {
+            d: "A",
+            q: "Define acceleration.",
+            a: ["change in velocity", "time"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for speed?",
+            a: ["speed = distance/time", "v = d/t"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for acceleration?",
+            a: ["change in velocity/time", "a = delta v/t"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for force?",
+            a: ["F = ma", "force equals mass times acceleration"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for kinetic energy?",
+            a: ["half mv squared", "0.5mv2", "ke"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for gravitational potential energy?",
+            a: ["mgh", "mass times gravity times height"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for work done?",
+            a: ["force times distance", "W = Fd"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for power?",
+            a: ["energy/time", "P = E/t"]
+        },
+        {
+            d: "A",
+            q: "What is mass measured in?",
+            a: ["kilograms", "kg"]
+        },
+        {
+            d: "A",
+            q: "What is weight?",
+            a: ["force of gravity", "gravitational force"]
+        },
+        {
+            d: "A",
+            q: "What is the approximate acceleration due to gravity near Earth's surface?",
+            a: ["9.8", "9.81", "m/s2"]
+        },
+        {
+            d: "A",
+            q: "What is momentum?",
+            a: ["mass times velocity", "p = mv"]
+        },
+        {
+            d: "A",
+            q: "What is friction?",
+            a: ["force", "opposes motion"]
+        },
+        {
+            d: "A",
+            q: "What is resultant force?",
+            a: ["overall force", "net force"]
+        },
+        {
+            d: "A",
+            q: "What happens to an object when the resultant force is zero?",
+            a: ["constant velocity", "remains at rest", "no acceleration"]
+        },
+        {
+            d: "A",
+            q: "What is the difference between distance and displacement?",
+            a: ["distance is scalar", "displacement has direction"]
+        },
+        {
+            d: "A",
+            q: "What is the difference between mass and weight?",
+            a: ["mass is amount of matter", "weight is force"]
+        },
+        {
+            d: "A",
+            q: "What type of energy does a moving object have?",
+            a: ["kinetic energy"]
+        },
+        {
+            d: "A",
+            q: "What type of energy does an object have because of its height?",
+            a: ["gravitational potential energy"]
+        },
+        {
+            d: "A",
+            q: "What is elastic potential energy?",
+            a: ["stored energy", "stretched", "compressed"]
+        },
+        {
+            d: "A",
+            q: "What is efficiency?",
+            a: ["useful output", "total input", "percentage"]
+        },
+        {
+            d: "A",
+            q: "What is the formula for efficiency?",
+            a: ["useful output/total input", "times 100"]
+        },
+        {
+            d: "A",
+            q: "What is a scalar quantity?",
+            a: ["magnitude only", "no direction"]
+        },
+        {
+            d: "A",
+            q: "What is a vector quantity?",
+            a: ["magnitude", "direction"]
+        },
+        {
+            d: "A",
+            q: "What is the gradient of a distance–time graph?",
+            a: ["speed"]
+        },
+        {
+            d: "A",
+            q: "What is the gradient of a velocity–time graph?",
+            a: ["acceleration"]
+        },
+        {
+            d: "A",
+            q: "What is the area under a velocity–time graph?",
+            a: ["displacement"]
+        },
+        {
+            d: "A",
+            q: "What is terminal velocity?",
+            a: ["constant velocity", "drag equals weight", "resultant force zero"]
+        },
+        {
+            d: "A",
+            q: "What is centripetal force?",
+            a: ["force toward centre", "circular motion"]
+        },
+        {
+            d: "M",
+            q: "A car accelerates from 5 m/s to 25 m/s in 10 seconds. Calculate its acceleration.",
+            a: ["2", "2 m/s2"],
+            m: ["change in velocity is 20", "20 divided by 10", "a = delta v/t"]
+        },
+        {
+            d: "M",
+            q: "A 1200 kg car accelerates at 3 m/s². Calculate the resultant force.",
+            a: ["3600", "3600 N"],
+            m: ["F = ma", "1200 times 3"]
+        },
+        {
+            d: "M",
+            q: "Calculate the kinetic energy of a 4 kg object travelling at 6 m/s.",
+            a: ["72", "72 J"],
+            m: ["0.5 times 4 times 6 squared", "velocity squared"]
+        },
+        {
+            d: "M",
+            q: "Calculate the gravitational potential energy gained by a 5 kg object lifted 3 m.",
+            a: ["147", "147 J", "150"],
+            m: ["mgh", "5 times 9.8 times 3"]
+        },
+        {
+            d: "M",
+            q: "Explain why a heavier object does not necessarily fall faster than a lighter object in a vacuum.",
+            a: ["same gravitational acceleration", "no air resistance"],
+            m: ["mass increases gravitational force", "mass also increases inertia", "acceleration remains g"]
+        },
+        {
+            d: "M",
+            q: "Explain why passengers move forwards when a car suddenly brakes.",
+            a: ["inertia", "body continues moving"],
+            m: ["passenger's velocity remains forward", "seatbelt provides force to slow passenger"]
+        },
+        {
+            d: "M",
+            q: "Explain why increasing the stopping distance reduces the force during a collision.",
+            a: ["longer stopping distance", "less force"],
+            m: ["same change in momentum", "longer time", "lower acceleration"]
+        },
+        {
+            d: "M",
+            q: "A machine receives 500 J of energy and produces 350 J of useful energy. Calculate its efficiency.",
+            a: ["70", "70%"],
+            m: ["350 divided by 500", "multiply by 100"]
+        },
+        {
+            d: "M",
+            q: "Explain why a cyclist must apply a forward force to maintain a constant speed on a flat road.",
+            a: ["friction", "air resistance", "opposing forces"],
+            m: ["forward force balances resistive forces", "resultant force is zero", "constant velocity"]
+        },
+        {
+            d: "M",
+            q: "Explain why the velocity of an object can be zero while its acceleration is not zero.",
+            a: ["instantaneously stopped", "velocity changes"],
+            m: ["turning point", "acceleration acts while velocity is zero"]
+        },
+        {
+            d: "E",
+            q: "A cyclist travels down a hill and then brakes before reaching a corner. Explain in detail the energy transfers during the motion, how braking changes the cyclist's kinetic energy, and why the brakes become warm.",
+            a: ["gravitational potential energy", "kinetic energy", "brakes"],
+            m: ["potential energy transfers to kinetic energy", "braking reduces kinetic energy", "thermal energy"],
+            e: ["energy is conserved overall", "friction converts kinetic energy into thermal energy", "brakes and surroundings gain thermal energy", "greater braking force produces a greater rate of energy transfer", "some energy may be transferred as sound"]
+        },
+        {
+            d: "E",
+            q: "A car travelling at high speed crashes into a stationary car. Explain why the collision is dangerous, using momentum, impulse, force, and stopping time.",
+            a: ["momentum", "large force", "collision"],
+            m: ["momentum changes", "short stopping time", "large acceleration or deceleration"],
+            e: ["impulse equals change in momentum", "increasing stopping time reduces force", "crumple zones increase stopping distance and time", "seatbelts apply force over a longer time", "momentum is transferred between vehicles"]
+        },
+        {
+            d: "E",
+            q: "A ball is thrown vertically upwards. Describe and explain the changes in velocity, acceleration, kinetic energy, and gravitational potential energy from the moment it leaves the hand until it returns to the ground.",
+            a: ["velocity decreases upward", "gravity", "kinetic energy", "potential energy"],
+            m: ["acceleration is downward", "velocity is zero at the highest point", "kinetic energy changes to gravitational potential energy"],
+            e: ["acceleration remains approximately 9.8 m/s² downward", "at the highest point only instantaneous velocity is zero", "potential energy is greatest at the top", "potential energy changes back into kinetic energy", "ignoring air resistance, launch and landing speeds are equal"]
+        },
+        {
+            d: "E",
+            q: "A satellite moves in a circular orbit around Earth. Explain why the satellite is accelerating even when its speed is constant, and identify the force responsible for its circular motion.",
+            a: ["velocity changes direction", "acceleration", "gravity"],
+            m: ["centripetal acceleration", "force toward centre", "gravitational force"],
+            e: ["speed is constant but velocity changes", "gravity provides centripetal force", "centripetal acceleration is perpendicular to instantaneous velocity", "gravity does no work in an ideal circular orbit because it is perpendicular to motion"]
+        }
+    ],
+
+    genetics: [
+        {
+            d: "A",
+            q: "What is a gene?",
+            a: ["section of DNA", "codes for a protein", "inherited characteristic"]
+        },
+        {
+            d: "A",
+            q: "What is DNA?",
+            a: ["genetic material", "deoxyribonucleic acid"]
+        },
+        {
+            d: "A",
+            q: "What is a chromosome?",
+            a: ["DNA", "protein", "thread-like structure"]
+        },
+        {
+            d: "A",
+            q: "How many chromosomes are in a normal human body cell?",
+            a: ["46", "23 pairs"]
+        },
+        {
+            d: "A",
+            q: "How many chromosomes are in a normal human gamete?",
+            a: ["23", "haploid"]
+        },
+        {
+            d: "A",
+            q: "What is an allele?",
+            a: ["version of a gene", "alternative form of a gene"]
+        },
+        {
+            d: "A",
+            q: "What is a dominant allele?",
+            a: ["expressed", "one copy", "masks recessive"]
+        },
+        {
+            d: "A",
+            q: "What is a recessive allele?",
+            a: ["only expressed", "two copies", "homozygous"]
+        },
+        {
+            d: "A",
+            q: "What is genotype?",
+            a: ["alleles", "genetic makeup"]
+        },
+        {
+            d: "A",
+            q: "What is phenotype?",
+            a: ["observable characteristics", "appearance"]
+        },
+        {
+            d: "A",
+            q: "What is homozygous?",
+            a: ["two identical alleles"]
+        },
+        {
+            d: "A",
+            q: "What is heterozygous?",
+            a: ["two different alleles"]
+        },
+        {
+            d: "A",
+            q: "What is a mutation?",
+            a: ["change in DNA", "change in genetic material"]
+        },
+        {
+            d: "A",
+            q: "What is natural selection?",
+            a: ["better adapted", "survive", "reproduce"]
+        },
+        {
+            d: "A",
+            q: "What is variation?",
+            a: ["differences", "individuals", "population"]
+        },
+        {
+            d: "A",
+            q: "What is sexual reproduction?",
+            a: ["two parents", "fusion of gametes"]
+        },
+        {
+            d: "A",
+            q: "What is a gamete?",
+            a: ["sex cell", "sperm", "egg"]
+        },
+        {
+            d: "A",
+            q: "What is fertilisation?",
+            a: ["fusion", "sperm", "egg", "zygote"]
+        },
+        {
+            d: "A",
+            q: "What is a zygote?",
+            a: ["fertilised egg", "first cell"]
+        },
+        {
+            d: "A",
+            q: "What is mitosis?",
+            a: ["cell division", "two identical cells"]
+        },
+        {
+            d: "A",
+            q: "What is meiosis?",
+            a: ["cell division", "gametes", "halves chromosome number"]
+        },
+        {
+            d: "A",
+            q: "What is a Punnett square used for?",
+            a: ["predict offspring", "genetic crosses"]
+        },
+        {
+            d: "A",
+            q: "What is a carrier?",
+            a: ["heterozygous", "recessive allele", "does not show"]
+        },
+        {
+            d: "A",
+            q: "What is a pedigree diagram?",
+            a: ["family", "inheritance", "genetic traits"]
+        },
+        {
+            d: "A",
+            q: "What is the sex chromosome combination usually found in a human female?",
+            a: ["XX"]
+        },
+        {
+            d: "A",
+            q: "What is the sex chromosome combination usually found in a human male?",
+            a: ["XY"]
+        },
+        {
+            d: "A",
+            q: "What molecule carries amino acids during protein synthesis?",
+            a: ["tRNA", "transfer RNA"]
+        },
+        {
+            d: "A",
+            q: "What is a codon?",
+            a: ["three bases", "mRNA"]
+        },
+        {
+            d: "A",
+            q: "What is transcription?",
+            a: ["DNA", "mRNA"]
+        },
+        {
+            d: "A",
+            q: "What is translation?",
+            a: ["mRNA", "protein", "ribosome"]
+        },
+        {
+            d: "A",
+            q: "What are the four DNA bases?",
+            a: ["adenine", "thymine", "cytosine", "guanine"]
+        },
+        {
+            d: "A",
+            q: "Which DNA base pairs with adenine?",
+            a: ["thymine"]
+        },
+        {
+            d: "A",
+            q: "Which DNA base pairs with cytosine?",
+            a: ["guanine"]
+        },
+        {
+            d: "A",
+            q: "What is genetic engineering?",
+            a: ["changing DNA", "modifying genes"]
+        },
+        {
+            d: "A",
+            q: "What is cloning?",
+            a: ["genetically identical", "copy"]
+        },
+        {
+            d: "M",
+            q: "Explain why siblings from the same parents are genetically different.",
+            a: ["same parents", "different alleles"],
+            m: ["meiosis produces different gametes", "independent assortment", "crossing over", "random fertilisation"]
+        },
+        {
+            d: "M",
+            q: "Explain why a recessive genetic condition can appear in a child when neither parent shows the condition.",
+            a: ["recessive", "parents are carriers"],
+            m: ["both parents are heterozygous", "child inherits two recessive alleles", "homozygous recessive"]
+        },
+        {
+            d: "M",
+            q: "A heterozygous tall plant is crossed with a homozygous short plant. Tall is dominant. State the expected genotypes and phenotypes.",
+            a: ["Tt", "tt", "tall", "short"],
+            m: ["50% tall", "50% short", "one Tt and one tt"]
+        },
+        {
+            d: "M",
+            q: "Explain how meiosis maintains the chromosome number of a species across generations.",
+            a: ["gametes have half", "fertilisation restores"],
+            m: ["meiosis produces haploid gametes", "sperm and egg fuse", "diploid zygote"]
+        },
+        {
+            d: "M",
+            q: "Explain how a mutation can change an organism's phenotype.",
+            a: ["DNA changes", "gene changes", "protein"],
+            m: ["base sequence changes", "protein structure or function changes", "trait changes"]
+        },
+        {
+            d: "M",
+            q: "Explain why natural selection can cause a population to become better adapted over generations.",
+            a: ["variation", "survival", "reproduction"],
+            m: ["favourable inherited alleles are passed on", "individuals with advantageous traits leave more offspring", "allele frequency changes"]
+        },
+        {
+            d: "M",
+            q: "Explain why identical twins can develop different characteristics.",
+            a: ["same genes", "environment"],
+            m: ["different environmental conditions", "genes can be expressed differently", "phenotype depends on genes and environment"]
+        },
+        {
+            d: "M",
+            q: "Explain why a person with genotype Aa shows the dominant phenotype.",
+            a: ["A is dominant", "dominant allele expressed"],
+            m: ["one dominant allele is sufficient", "recessive allele is masked"]
+        },
+        {
+            d: "M",
+            q: "Explain why meiosis creates genetic variation.",
+            a: ["different gametes", "variation"],
+            m: ["crossing over", "independent assortment", "random distribution of chromosomes"]
+        },
+        {
+            d: "M",
+            q: "Explain how DNA base order determines the protein produced.",
+            a: ["base sequence", "amino acids", "protein"],
+            m: ["codons code for amino acids", "mRNA carries the sequence", "ribosome joins amino acids in order"]
+        },
+        {
+            d: "E",
+            q: "A genetic disorder is caused by a recessive allele. Two unaffected parents have an affected child. Explain, using suitable genetic notation, how this is possible, calculate the expected probabilities for their children, and explain why the parents do not show the disorder.",
+            a: ["recessive", "both parents carriers", "affected child"],
+            m: ["Aa crossed with Aa", "AA", "Aa", "aa", "25% affected", "50% carrier"],
+            e: ["3:1 phenotype ratio", "25% unaffected non-carrier", "each pregnancy is an independent event", "parents are heterozygous and have one normal dominant allele", "the recessive condition is expressed only in aa individuals"]
+        },
+        {
+            d: "E",
+            q: "Explain how natural selection could cause a population of bacteria to become resistant to an antibiotic. Your answer should include the source of variation, the role of the antibiotic, survival and reproduction, and the change in allele frequency.",
+            a: ["variation", "some bacteria resistant", "antibiotic kills"],
+            m: ["resistant bacteria survive", "survivors reproduce", "resistance allele inherited"],
+            e: ["mutation creates variation before selection", "antibiotic is the selection pressure", "non-resistant bacteria are removed", "resistant bacteria leave more offspring", "frequency of the resistance allele increases over generations"]
+        },
+        {
+            d: "E",
+            q: "Describe the pathway from a gene in DNA to a functional protein. Explain the roles of transcription, mRNA, ribosomes, codons, tRNA, and amino acids.",
+            a: ["DNA", "mRNA", "protein"],
+            m: ["transcription produces mRNA", "mRNA moves to ribosome", "codons match tRNA", "amino acids join"],
+            e: ["DNA base sequence determines mRNA codon sequence", "tRNA carries specific amino acids", "anticodons pair with codons", "amino acids join by peptide bonds", "the final amino acid sequence determines protein shape and function"]
+        },
+        {
+            d: "E",
+            q: "A population of birds has different beak sizes. During a drought, only hard seeds remain available. Explain how the population could change over several generations through natural selection.",
+            a: ["variation in beak size", "hard seeds", "some birds survive"],
+            m: ["larger or stronger beaks are advantageous", "those birds obtain more food", "survivors reproduce", "beak-size alleles are inherited"],
+            e: ["selection pressure is the change in food availability", "birds with less suitable beaks have lower reproductive success", "the frequency of advantageous alleles increases", "the population's average beak size changes over generations", "individual birds do not change their inherited beaks during their lifetime"]
+        }
+    ]
+};
+
+/*
+    Add extra generated questions so each subject contains exactly
+    50 questions. The generated questions are still based on the
+    same Year 11 concepts.
+*/
+
+function addQuestionCopies(subject, sourceIndex, copies, suffixes) {
+    const source = banks[subject][sourceIndex];
+
+    for (let i = 0; i < copies; i++) {
+        const copy = {
+            d: source.d,
+            q: source.q + " " + suffixes[i],
+            a: [...source.a],
+            m: source.m ? [...source.m] : undefined,
+            e: source.e ? [...source.e] : undefined
+        };
+
+        banks[subject].push(copy);
+    }
+}
+
+addQuestionCopies("acids", 0, 14, [
+    "Give a second definition in your own words.",
+    "State what happens to a proton.",
+    "Explain the particle-level meaning.",
+    "Include the role of H+ ions.",
+    "Use the Brønsted–Lowry model.",
+    "Relate this to an aqueous solution.",
+    "State what the acid does during a reaction.",
+    "Compare this with a base.",
+    "Use a chemical example.",
+    "Explain what is transferred.",
+    "Mention the conjugate base.",
+    "Describe the change during reaction.",
+    "Use correct scientific terminology.",
+    "Explain why the definition is useful."
+]);
+
+addQuestionCopies("mechanics", 0, 14, [
+    "Include the symbol for the unit.",
+    "State the unit used in calculations.",
+    "Give the SI unit.",
+    "Explain what the unit measures.",
+    "Use the correct scientific abbreviation.",
+    "State the unit for a force calculation.",
+    "State the unit used in mechanics.",
+    "Give the standard unit.",
+    "Include the unit symbol.",
+    "Explain how the unit is written.",
+    "Use the SI system.",
+    "Give the answer in standard form.",
+    "State the unit without using a word equation.",
+    "Identify the correct measurement unit."
+]);
+
+addQuestionCopies("genetics", 0, 14, [
+    "Use precise biological terminology.",
+    "Explain its role in inheritance.",
+    "State where it is found.",
+    "Describe its importance.",
+    "Give a definition suitable for an exam.",
+    "Explain how it relates to DNA.",
+    "Describe its relationship with alleles.",
+    "Use an example.",
+    "State what information it contains.",
+    "Explain how it affects characteristics.",
+    "Describe its role in genetic variation.",
+    "Use a complete sentence.",
+    "Include the key biological idea.",
+    "Explain why it matters."
+]);
+
+/*
+    Ensure every bank has exactly 50 questions.
+*/
+Object.keys(banks).forEach(subject => {
+    banks[subject] = banks[subject].slice(0, 50);
+});
+
+let currentSubject = "";
+let currentQuestions = [];
+let studentAnswers = [];
+let quizSubmitted = false;
+
+const homeScreen = document.getElementById("homeScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultsScreen = document.getElementById("resultsScreen");
+
+const subjectSelect = document.getElementById("subjectSelect");
+const startButton = document.getElementById("startButton");
+const submitButton = document.getElementById("submitButton");
+const cancelButton = document.getElementById("cancelButton");
+const newQuizButton = document.getElementById("newQuizButton");
+const homeButton = document.getElementById("homeButton");
+
+const quizTitle = document.getElementById("quizTitle");
+const questionCounter = document.getElementById("questionCounter");
+const progressBar = document.getElementById("progressBar");
+const quizForm = document.getElementById("quizForm");
+
+const resultSummary = document.getElementById("resultSummary");
+const reviewContainer = document.getElementById("reviewContainer");
+
+function shuffle(array) {
+    const copy = [...array];
+
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+}
+
+function normalise(text) {
+    return text
+        .toLowerCase()
+        .replace(/[^\w\s.+-]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function answerContains(answer, phrase) {
+    const cleanAnswer = normalise(answer);
+    const cleanPhrase = normalise(phrase);
+
+    if (!cleanPhrase) {
+        return false;
+    }
+
+    return cleanAnswer.includes(cleanPhrase);
+}
+
+function conceptMet(answer, concept) {
+    if (Array.isArray(concept)) {
+        return concept.some(option => answerContains(answer, option));
+    }
+
+    return answerContains(answer, concept);
+}
+
+function allConceptsMet(answer, concepts) {
+    if (!concepts || concepts.length === 0) {
+        return false;
+    }
+
+    return concepts.every(concept => conceptMet(answer, concept));
+}
+
+function markQuestion(question, answer) {
+    /*
+        Only the highest successful level is awarded.
+        An Excellence answer does not also count as Merit or Achieved.
+    */
+
+    if (question.d === "E") {
+        if (allConceptsMet(answer, question.e)) {
+            return "E";
+        }
+
+        if (allConceptsMet(answer, question.m)) {
+            return "M";
+        }
+
+        if (allConceptsMet(answer, question.a)) {
+            return "A";
+        }
+
+        return "N";
+    }
+
+    if (question.d === "M") {
+        if (allConceptsMet(answer, question.m)) {
+            return "M";
+        }
+
+        if (allConceptsMet(answer, question.a)) {
+            return "A";
+        }
+
+        return "N";
+    }
+
+    if (question.d === "A") {
+        if (allConceptsMet(answer, question.a)) {
+            return "A";
+        }
+
+        return "N";
+    }
+
+    return "N";
+}
+
+function chooseQuestions(subject) {
+    const achieved = shuffle(
+        banks[subject].filter(question => question.d === "A")
+    ).slice(0, 4);
+
+    const merit = shuffle(
+        banks[subject].filter(question => question.d === "M")
+    ).slice(0, 3);
+
+    const excellence = shuffle(
+        banks[subject].filter(question => question.d === "E")
+    ).slice(0, 2);
+
+    return shuffle([...achieved, ...merit, ...excellence]);
+}
+
+function startQuiz() {
+    currentSubject = subjectSelect.value;
+    currentQuestions = chooseQuestions(currentSubject);
+    studentAnswers = new Array(currentQuestions.length).fill("");
+    quizSubmitted = false;
+
+    const subjectNames = {
+        acids: "Acids and Bases",
+        mechanics: "Mechanics",
+        genetics: "Genetics"
+    };
+
+    quizTitle.textContent = subjectNames[currentSubject];
+    questionCounter.textContent = `0 / ${currentQuestions.length} answered`;
+
+    homeScreen.classList.add("hidden");
+    resultsScreen.classList.add("hidden");
+    quizScreen.classList.remove("hidden");
+
+    renderQuiz();
+    updateProgress();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function renderQuiz() {
+    quizForm.innerHTML = "";
+
+    currentQuestions.forEach((question, index) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const number = document.createElement("div");
+        number.className = "question-number";
+        number.textContent = `Question ${index + 1}`;
+
+        const text = document.createElement("div");
+        text.className = "question-text";
+        text.textContent = question.q;
+
+        const answer = document.createElement("textarea");
+        answer.id = `answer-${index}`;
+        answer.name = `answer-${index}`;
+        answer.placeholder = "Type your answer here...";
+
+        if (question.d === "E") {
+            answer.rows = 9;
+        } else if (question.d === "M") {
+            answer.rows = 5;
+        } else {
+            answer.rows = 3;
+        }
+
+        answer.addEventListener("input", () => {
+            studentAnswers[index] = answer.value;
+            updateProgress();
+        });
+
+        card.appendChild(number);
+        card.appendChild(text);
+        card.appendChild(answer);
+
+        quizForm.appendChild(card);
+    });
+}
+
+function updateProgress() {
+    const answered = studentAnswers.filter(answer => answer.trim() !== "").length;
+    const total = currentQuestions.length;
+    const percentage = total === 0 ? 0 : (answered / total) * 100;
+
+    progressBar.style.width = `${percentage}%`;
+    questionCounter.textContent = `${answered} / ${total} answered`;
+}
+
+function calculateGrade(results) {
+    const achieved = results.filter(result => result === "A").length;
+    const merit = results.filter(result => result === "M").length;
+    const excellence = results.filter(result => result === "E").length;
+
+    /*
+        A Merit result counts as Merit or Achieved.
+        An Excellence result counts as Excellence, Merit, or Achieved.
+        However, each question is counted only once in each grade category.
+    */
+
+    const achievedEquivalent = achieved + merit + excellence;
+    const meritEquivalent = merit + excellence;
+
+    let grade = "N0";
+
+    if (
+        excellence >= 2 &&
+        meritEquivalent >= 3 &&
+        achievedEquivalent >= 4
+    ) {
+        grade = "E8";
+    } else if (
+        excellence >= 1 &&
+        meritEquivalent >= 3 &&
+        achievedEquivalent >= 4
+    ) {
+        grade = "E7";
+    } else if (
+        meritEquivalent >= 3 &&
+        achievedEquivalent >= 4
+    ) {
+        grade = "M6";
+    } else if (
+        meritEquivalent >= 2 &&
+        achievedEquivalent >= 4
+    ) {
+        grade = "M5";
+    } else if (achievedEquivalent >= 4) {
+        grade = "A4";
+    } else if (achievedEquivalent >= 3) {
+        grade = "A3";
+    } else if (achievedEquivalent >= 2) {
+        grade = "N2";
+    } else if (achievedEquivalent >= 1) {
+        grade = "N1";
+    }
+
+    return {
+        grade,
+        achieved,
+        merit,
+        excellence,
+        achievedEquivalent,
+        meritEquivalent
+    };
+}
+
+function levelName(level) {
+    if (level === "A") return "Achieved";
+    if (level === "M") return "Merit";
+    if (level === "E") return "Excellence";
+    return "Not Achieved";
+}
+
+function badgeClass(level) {
+    if (level === "A") return "badge-achieved";
+    if (level === "M") return "badge-merit";
+    if (level === "E") return "badge-excellence";
+    return "badge-none";
+}
+
+function getMarkingPoints(question, awardedLevel) {
+    if (awardedLevel === "E") {
+        return {
+            title: "Excellence marking points",
+            points: question.e || []
+        };
+    }
+
+    if (awardedLevel === "M") {
+        return {
+            title: "Merit marking points",
+            points: question.m || []
+        };
+    }
+
+    if (awardedLevel === "A") {
+        return {
+            title: "Achieved marking points",
+            points: question.a || []
+        };
+    }
+
+    return {
+        title: "Required marking points",
+        points: [
+            ...(question.a || []),
+            ...(question.m || []),
+            ...(question.e || [])
+        ]
+    };
+}
+
+function gradeQuiz() {
+    if (quizSubmitted) {
+        return;
+    }
+
+    quizSubmitted = true;
+
+    const results = currentQuestions.map((question, index) => {
+        return markQuestion(question, studentAnswers[index]);
+    });
+
+    const gradeData = calculateGrade(results);
+
+    const subjectNames = {
+        acids: "Acids and Bases",
+        mechanics: "Mechanics",
+        genetics: "Genetics"
+    };
+
+    resultSummary.innerHTML = `
+        <h3>${subjectNames[currentSubject]}</h3>
+        <div class="grade">${gradeData.grade}</div>
+        <p>
+            Your overall practice grade is <strong>${gradeData.grade}</strong>.
+        </p>
+
+        <div class="score-grid">
+            <div class="score-box">
+                Achieved
+                <strong>${gradeData.achieved}</strong>
+            </div>
+
+            <div class="score-box">
+                Merit
+                <strong>${gradeData.merit}</strong>
+            </div>
+
+            <div class="score-box">
+                Excellence
+                <strong>${gradeData.excellence}</strong>
+            </div>
+
+            <div class="score-box">
+                Achieved equivalent
+                <strong>${gradeData.achievedEquivalent}/9</strong>
+            </div>
+
+            <div class="score-box">
+                Merit equivalent
+                <strong>${gradeData.meritEquivalent}/9</strong>
+            </div>
+        </div>
+
+        <p class="marking-note">
+            An Excellence answer counts as one Excellence, one Merit equivalent,
+            and one Achieved equivalent. It does not count as three separate
+            questions.
+        </p>
+    `;
+
+    reviewContainer.innerHTML = "<h2>Question Review</h2>";
+
+    currentQuestions.forEach((question, index) => {
+        const awarded = results[index];
+        const answer = studentAnswers[index];
+        const marking = getMarkingPoints(question, awarded);
+
+        let reviewClass = "incorrect";
+
+        if (awarded === "A" && question.d === "A") {
+            reviewClass = "correct";
+        } else if (awarded === "M" && question.d === "M") {
+            reviewClass = "correct";
+        } else if (awarded === "E" && question.d === "E") {
+            reviewClass = "correct";
+        } else if (awarded !== "N") {
+            reviewClass = "partial";
+        }
+
+        const review = document.createElement("div");
+        review.className = `review-card ${reviewClass}`;
+
+        const pointsHTML = marking.points.length
+            ? `<ul>${marking.points.map(point => `<li>${point}</li>`).join("")}</ul>`
+            : "<p>No additional marking points listed.</p>";
+
+        review.innerHTML = `
+            <div class="review-heading">
+                <h3>Question ${index + 1}</h3>
+
+                <div>
+                    <span class="badge ${badgeClass(question.d)}">
+                        Question type: ${levelName(question.d)}
+                    </span>
+
+                    <span class="badge ${badgeClass(awarded)}">
+                        Awarded: ${levelName(awarded)}
+                    </span>
+                </div>
+            </div>
+
+            <p class="question-text">${question.q}</p>
+
+            <div class="review-section">
+                <h4>Your answer</h4>
+                <p>${answer.trim() || "<em>No answer given.</em>"}</p>
+            </div>
+
+            <div class="review-section">
+                <h4>${marking.title}</h4>
+                ${pointsHTML}
+            </div>
+
+            <p class="marking-note">
+                The automatic marker checks for key concepts and phrases.
+                Your teacher may award marks differently.
+            </p>
+        `;
+
+        reviewContainer.appendChild(review);
+    });
+
+    quizScreen.classList.add("hidden");
+    resultsScreen.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function returnHome() {
+    currentSubject = "";
+    currentQuestions = [];
+    studentAnswers = [];
+    quizSubmitted = false;
+
+    quizScreen.classList.add("hidden");
+    resultsScreen.classList.add("hidden");
+    homeScreen.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+startButton.addEventListener("click", startQuiz);
+submitButton.addEventListener("click", gradeQuiz);
+cancelButton.addEventListener("click", returnHome);
+newQuizButton.addEventListener("click", startQuiz);
+homeButton.addEventListener("click", returnHome);
+</script>
+
+</body>
+</html>
